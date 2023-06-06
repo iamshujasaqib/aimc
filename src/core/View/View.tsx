@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet, View as CoreView, ViewProps} from 'react-native';
 import {Colors} from '../../constants/colors';
+import {SafeAreaView} from '../SafeAreaView';
 
 export interface MyViewProps extends ViewProps {
   flex?: boolean;
@@ -8,6 +9,7 @@ export interface MyViewProps extends ViewProps {
   border?: boolean;
   transparent?: boolean;
   fullWidth?: boolean;
+  safeArea?: boolean;
 }
 
 export const View = (props: MyViewProps) => {
@@ -18,6 +20,7 @@ export const View = (props: MyViewProps) => {
     border = false,
     transparent = false,
     fullWidth = false,
+    safeArea = false,
     style,
     ...rest
   } = props;
@@ -33,6 +36,7 @@ export const View = (props: MyViewProps) => {
         fullWidth && styles.fullWidth,
         style,
       ]}>
+      {safeArea && <SafeAreaView />}
       {children}
     </CoreView>
   );
