@@ -1,0 +1,15 @@
+export const Colors = {
+  black: '#28282B',
+  onyx: '#353935',
+  danger: '#CA4141',
+  grey: '#818589',
+  boneWhite: '#F9F6EE',
+  transparent: 'rgba(0,0,0,0.2)',
+  white: '#FFFFFF',
+  darkGreen: '#038e91',
+  lightGreen: '#02dbad',
+  charcoal: '#28231D',
+  red_1: '#BE4842',
+  lightGrey: '#E3E4E6',
+  lightGrey_1: '#f5f5f5',
+};
