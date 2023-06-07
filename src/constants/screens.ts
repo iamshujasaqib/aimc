@@ -13,6 +13,7 @@ export const Screens = {
         navigator: 'homeStack',
         modules: {
           home: 'home',
+          addStudent: 'addStudent',
         },
       },
     },
