@@ -11,7 +11,7 @@ export const MainApp = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName={Screens.home.navigator}
+        // initialRouteName={Screens.home.navigator}
         screenOptions={{headerShown: false}}>
         <Stack.Screen name={Screens.auth.navigator} component={AuthStack} />
         <Stack.Screen name={Screens.home.navigator} component={Tabs} />
