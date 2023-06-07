@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
+import {UserAPI} from 'src/business/api/user';
 import {Logo} from 'src/components/Logo';
 import {Colors} from 'src/constants/colors';
 import {Screens} from 'src/constants/screens';
@@ -16,6 +17,11 @@ interface LoginScreenProps {
 
 export const Login = (props: LoginScreenProps) => {
   const {navigation} = props;
+
+  async function onPress() {
+    // const res = await UserAPI.register({name: 'hello'});
+  }
+
   return (
     <TabContent tabStyle={styles.main} safeArea flex>
       <Margin top={40} />
@@ -24,7 +30,7 @@ export const Login = (props: LoginScreenProps) => {
         <TextInput placeholder="Email" autoCapitalize="none" />
         <TextInput placeholder="Password" secureTextEntry />
         <Margin top={20} />
-        <Button title="Login" />
+        <Button title="Login" onPress={onPress} />
         <View style={{alignSelf: 'flex-end', marginTop: 20}}>
           <Text style={styles.smallText}>
             Not a user yet?{' '}

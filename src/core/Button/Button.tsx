@@ -49,7 +49,7 @@ export const Button = (props: ButtonProps) => {
         {title}
       </Text>
       {loader && (
-        <ActivityIndicator color={Colors.red_1} style={{marginLeft: 5}} />
+        <ActivityIndicator color={Colors.white} style={{marginLeft: 5}} />
       )}
     </TouchableOpacity>
   );
