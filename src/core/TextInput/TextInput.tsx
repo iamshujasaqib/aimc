@@ -29,9 +29,7 @@ export const TextInput = (props: MyTIProps) => {
     rounded,
     ...rest
   } = props;
-  const placeholderTextColor = singleBorder
-    ? Colors.boneWhite
-    : Colors.lightGrey;
+  const placeholderTextColor = singleBorder ? Colors.black : Colors.grey;
 
   return (
     <View

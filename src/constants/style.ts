@@ -1,7 +1,7 @@
 export const ComponentStyles = {
   height: 50,
   width: '100%',
-  borderRadius: 25,
+  borderRadius: 10,
 };
 
 export const IconSizes = {
