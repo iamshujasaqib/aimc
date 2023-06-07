@@ -47,6 +47,9 @@ export const Register = (props: RegisterScreenProps) => {
     const res = await UserAPI.register(data).finally(() => setLoader(false));
 
     console.log(res);
+    if (res.id) {
+      navigation.replace(Screens.home.navigator);
+    }
   }
 
   function isValidData(data: UserRegisterData) {

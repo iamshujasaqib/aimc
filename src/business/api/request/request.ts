@@ -11,7 +11,7 @@ export const post = async (endpoint: string, data: object) => {
   })
     .then(response => response.json())
     .then(json => {
-      return json;
+      return json.data;
     })
     .catch(error => {
       console.error(error, 'error');

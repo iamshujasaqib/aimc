@@ -6,4 +6,15 @@ export const Screens = {
       register: 'register',
     },
   },
+  home: {
+    navigator: 'homeTabs',
+    modules: {
+      main: {
+        navigator: 'homeStack',
+        modules: {
+          home: 'home',
+        },
+      },
+    },
+  },
 };

@@ -34,6 +34,9 @@ export const Login = (props: LoginScreenProps) => {
       setLoader(false),
     );
     console.log(res);
+    if (res.id) {
+      navigation.replace(Screens.home.navigator);
+    }
   }
 
   function isValidData(data: {email: string; password: string}) {
