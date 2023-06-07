@@ -10,6 +10,7 @@ import {Colors} from 'src/constants/colors';
 import {Margin} from 'src/core/Margin';
 import {Button} from 'src/core/Button';
 import {Screens} from 'src/constants/screens';
+import {Storage} from 'src/helpers/Storage';
 
 export const HomeScreen = ({navigation}: any) => {
   const [students, setStudents] = useState<StudentResponse[]>([]);
@@ -29,7 +30,17 @@ export const HomeScreen = ({navigation}: any) => {
 
   const renderItems: ListRenderItem<StudentResponse> = useCallback(
     ({item, index}) => {
-      return <StudentItem key={index} student={item} />;
+      return (
+        <StudentItem
+          key={index}
+          student={item}
+          onPress={() =>
+            navigation.navigate(Screens.home.modules.main.modules.addStudent, {
+              studentId: item.id,
+            })
+          }
+        />
+      );
     },
     [],
   );

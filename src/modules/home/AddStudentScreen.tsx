@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from 'react';
+import React, {useCallback, useMemo, useState} from 'react';
 import {StudentAPI} from 'src/business/api/student';
 import {StudentResponse} from 'src/business/responses/StudentResponse';
 import {Colors} from 'src/constants/colors';
@@ -16,10 +16,36 @@ import {MEDIA_URL} from 'src/constants/url';
 
 interface Props {
   navigation: any;
+  route?: {
+    params?: {
+      studentId?: string;
+    };
+  };
 }
 
 export const AddStudentScreen = (props: Props) => {
-  const {navigation} = props;
+  const {navigation, route} = props;
+
+  const studentId = useMemo(
+    () => (route?.params?.studentId ? route.params.studentId : null),
+    [route],
+  );
+
+  const getData = useCallback(async () => {
+    if (!studentId) return;
+    const res: StudentResponse = await StudentAPI.getStudent(studentId);
+    if (res.id) {
+      setFirstName(res.firstName);
+      setLastName(res.lastName);
+      setEmail(res.email);
+      setImageResponse(res.avatar);
+    }
+  }, [studentId]);
+
+  React.useEffect(() => {
+    getData();
+  }, []);
+
   const [firstName, setFirstName] = useState<string>('');
   const [lastName, setLastName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
@@ -55,10 +81,25 @@ export const AddStudentScreen = (props: Props) => {
     if (!isValid) return;
     setLoader(true);
 
-    const res = await StudentAPI.register(data).finally(() => {
-      setLoader(false);
-      navigation.goBack();
-    });
+    if (!!studentId) {
+      const res = await StudentAPI.update({...data, id: studentId}).finally(
+        () => {
+          setLoader(false);
+          navigation.goBack();
+        },
+      );
+      if (res.id) {
+        setFirstName(res.firstName);
+        setLastName(res.lastName);
+        setEmail(res.email);
+        setImageResponse(res.avatar);
+      }
+    } else {
+      const res = await StudentAPI.register(data).finally(() => {
+        setLoader(false);
+        navigation.goBack();
+      });
+    }
   }
 
   function isValidData(data: StudentResponse) {

@@ -3,4 +3,5 @@ export interface StudentResponse {
   lastName: string;
   avatar?: string;
   email: string;
+  id?: string;
 }
