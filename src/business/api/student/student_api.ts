@@ -4,3 +4,6 @@ import {StudentResponse} from 'src/business/responses/StudentResponse';
 export const register = (data: StudentResponse) => {
   return Endpoint.post('students/register', data);
 };
+export const all = () => {
+  return Endpoint.get('students/get');
+};
