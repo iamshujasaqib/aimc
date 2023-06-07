@@ -11,6 +11,7 @@ import {TabContent} from 'src/core/TabContent';
 import {Text} from 'src/core/Text';
 import {TextInput} from 'src/core/TextInput';
 import {View} from 'src/core/View';
+import {Storage} from 'src/helpers/Storage';
 
 interface LoginScreenProps {
   navigation: any;
@@ -35,7 +36,9 @@ export const Login = (props: LoginScreenProps) => {
     );
     console.log(res);
     if (res.id) {
-      navigation.replace(Screens.home.navigator);
+      await Storage.store(Storage.StorageKeys.userId, res.id).finally(() => {
+        navigation.replace(Screens.home.navigator);
+      });
     }
   }
 
