@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useMemo, useState} from 'react';
 import {StudentAPI} from 'src/business/api/student';
 import {StudentResponse} from 'src/business/responses/StudentResponse';
 import {Colors} from 'src/constants/colors';
@@ -9,6 +9,10 @@ import {TabContent} from 'src/core/TabContent';
 import {Text} from 'src/core/Text';
 import {TextInput} from 'src/core/TextInput';
 import {View} from 'src/core/View';
+import ImageCropPicker from 'react-native-image-crop-picker';
+import {ImageAPI} from 'src/business/api/image';
+import {Avatar} from 'src/components/Avatar';
+import {MEDIA_URL} from 'src/constants/url';
 
 interface Props {
   navigation: any;
@@ -21,7 +25,20 @@ export const AddStudentScreen = (props: Props) => {
   const [email, setEmail] = useState<string>('');
 
   const [loader, setLoader] = useState<boolean>(false);
+  const [imageLoader, setImageLoader] = useState<boolean>(false);
   const [error, setError] = useState<boolean>(false);
+  const [imageResponse, setImageResponse]: any = useState(null);
+  const [localImg, setLocalImg]: any = useState(null);
+
+  const uri = useMemo(
+    () =>
+      localImg
+        ? {uri: localImg}
+        : imageResponse
+        ? {uri: imageResponse}
+        : undefined,
+    [localImg, imageResponse],
+  );
 
   async function onPress() {
     setError(false);
@@ -29,6 +46,7 @@ export const AddStudentScreen = (props: Props) => {
       firstName,
       lastName,
       email,
+      avatar: imageResponse ? imageResponse : null,
     };
 
     const isValid = isValidData(data);
@@ -57,11 +75,33 @@ export const AddStudentScreen = (props: Props) => {
     return true;
   }
 
+  async function onImagePick() {
+    let result: any = await ImageCropPicker.openPicker({
+      compressImageQuality: 0.5,
+    });
+
+    setImageLoader(true);
+    const res: any = await ImageAPI.uploadImage(result).finally(() =>
+      setImageLoader(false),
+    );
+
+    if (res && res.uri) {
+      setImageResponse(res.uri);
+      setLocalImg(MEDIA_URL + res.uri);
+    }
+  }
+
   return (
     <TabContent flex>
       <ScreenHeader title="Add Student" />
       <Margin top={20} />
       <View style={{width: '90%'}}>
+        <Avatar
+          size={100}
+          onPress={onImagePick}
+          loader={imageLoader}
+          source={uri}
+        />
         <TextInput
           placeholder="First Name"
           autoCapitalize="none"

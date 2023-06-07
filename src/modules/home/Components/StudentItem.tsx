@@ -1,4 +1,4 @@
-import React, {memo} from 'react';
+import React, {memo, useMemo} from 'react';
 import {StyleSheet, TouchableOpacity} from 'react-native';
 import {StudentResponse} from 'src/business/responses/StudentResponse';
 import {Avatar} from 'src/components/Avatar';
@@ -14,10 +14,14 @@ interface StudentItemProps {
 
 export const StudentItem = memo((props: StudentItemProps) => {
   const {student, onPress} = props;
+  const uri = useMemo(
+    () => (student.avatar !== null ? {uri: student.avatar} : undefined),
+    [student],
+  );
   return (
     <TouchableOpacity onPress={onPress}>
       <View flex row style={styles.main}>
-        <Avatar />
+        <Avatar source={uri} />
         <View style={styles.inner}>
           <Text style={styles.name}>{CommonService.getFullName(student)}</Text>
           <Text style={styles.email}>{student.email}</Text>
