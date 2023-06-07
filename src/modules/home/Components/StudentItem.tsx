@@ -1,5 +1,5 @@
 import React, {memo} from 'react';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, TouchableOpacity} from 'react-native';
 import {StudentResponse} from 'src/business/responses/StudentResponse';
 import {Avatar} from 'src/components/Avatar';
 import {Colors} from 'src/constants/colors';
@@ -9,18 +9,21 @@ import {CommonService} from 'src/services/Common';
 
 interface StudentItemProps {
   student: StudentResponse;
+  onPress?(): void;
 }
 
 export const StudentItem = memo((props: StudentItemProps) => {
-  const {student} = props;
+  const {student, onPress} = props;
   return (
-    <View flex row style={styles.main}>
-      <Avatar />
-      <View style={styles.inner}>
-        <Text style={styles.name}>{CommonService.getFullName(student)}</Text>
-        <Text style={styles.email}>{student.email}</Text>
+    <TouchableOpacity onPress={onPress}>
+      <View flex row style={styles.main}>
+        <Avatar />
+        <View style={styles.inner}>
+          <Text style={styles.name}>{CommonService.getFullName(student)}</Text>
+          <Text style={styles.email}>{student.email}</Text>
+        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 });
 
