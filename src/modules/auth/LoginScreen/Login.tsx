@@ -1,5 +1,6 @@
 import React from 'react';
 import {StyleSheet} from 'react-native';
+import {AuthAPI} from 'src/business/api/auth';
 import {UserAPI} from 'src/business/api/user';
 import {Logo} from 'src/components/Logo';
 import {Colors} from 'src/constants/colors';
@@ -18,8 +19,31 @@ interface LoginScreenProps {
 export const Login = (props: LoginScreenProps) => {
   const {navigation} = props;
 
+  const [email, setEmail] = React.useState<string>('');
+  const [password, setPassword] = React.useState<string>('');
+  const [loader, setLoader] = React.useState<boolean>(false);
+  const [error, setError] = React.useState<boolean>(false);
+
   async function onPress() {
-    // const res = await UserAPI.register({name: 'hello'});
+    setError(false);
+    const isValid = isValidData({email, password});
+    setError(!isValid);
+    if (!isValid) return;
+    setLoader(true);
+    const res = await AuthAPI.login({email, password}).finally(() =>
+      setLoader(false),
+    );
+    console.log(res);
+  }
+
+  function isValidData(data: {email: string; password: string}) {
+    if (data.email.length < 5) {
+      return false;
+    }
+    if (data.password.length < 5) {
+      return false;
+    }
+    return true;
   }
 
   return (
@@ -27,10 +51,27 @@ export const Login = (props: LoginScreenProps) => {
       <Margin top={40} />
       <Logo />
       <View style={{width: '90%', alignItems: 'center', marginTop: '30%'}}>
-        <TextInput placeholder="Email" autoCapitalize="none" />
-        <TextInput placeholder="Password" secureTextEntry />
+        <TextInput
+          placeholder="Email"
+          autoCapitalize="none"
+          onChangeText={setEmail}
+          value={email}
+        />
+        <TextInput
+          placeholder="Password"
+          secureTextEntry
+          onChangeText={setPassword}
+          value={password}
+        />
         <Margin top={20} />
-        <Button title="Login" onPress={onPress} />
+        {error && (
+          <Text style={{fontWeight: '500', color: Colors.danger}}>
+            Given data is invalid
+          </Text>
+        )}
+        <Margin top={20} />
+
+        <Button title="Login" onPress={onPress} loader={loader} />
         <View style={{alignSelf: 'flex-end', marginTop: 20}}>
           <Text style={styles.smallText}>
             Not a user yet?{' '}
